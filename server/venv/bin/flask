@@ -1,4 +1,4 @@
-#!/Users/rifat.khan/projects/govfind/server/venv/bin/python3
+#!/home/bo/GovFind/server/venv/bin/python3
 # -*- coding: utf-8 -*-
 import re
 import sys
