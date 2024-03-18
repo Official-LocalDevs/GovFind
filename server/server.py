@@ -9,7 +9,7 @@ app = Flask(__name__)
 CORS(app)
 
 URL = os.getenv('SUPABASE_URL')
-KEY = os.getenv('SUPABASE_KEY')
+KEY = os.getenv('SUPABASE_KEY')  
 supabase: Client = create_client(URL, KEY,
   options=ClientOptions(
     postgrest_client_timeout=10, # Timeout for database requests (sec)
@@ -26,14 +26,15 @@ def return_home():
 def test_supabase_connection():
     try:
         # Perform a query to check the connection
-        result = supabase.table("programs").select("*").limit(1).execute()
-        
-        if result.error:
+        result = supabase.table("benefits_programs").select("*").limit(1).execute()
+
+        # Check for any error in the API response
+        if hasattr(result, 'error') and result.error:
             raise Exception(result.error.message)
         else:
             return jsonify({'success': True, 'message': 'Successfully connected to Supabase.', 'data': result.data}), 200
     except Exception as e:
         return jsonify({'success': False, 'message': 'Failed to connect to Supabase.', 'error': str(e)}), 500
-
+    
 if __name__ == '__main__':
     app.run(port=8000, debug=True)
